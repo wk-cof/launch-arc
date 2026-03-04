@@ -8,6 +8,9 @@ class SpaceDevsAPI {
     // We'll use the production URL which allows 15 requests per hour unauthenticated.
     private let baseURL = "https://ll.thespacedevs.com/2.2.0"
     
+    private var cachedLaunches: [Launch]?
+    private var lastFetchTime: Date?
+    
     private let decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
@@ -15,7 +18,11 @@ class SpaceDevsAPI {
     }()
     
     func fetchUpcomingLaunches() async throws -> [Launch] {
-        guard let url = URL(string: "\(baseURL)/launch/upcoming/?limit=20") else {
+        if let cached = cachedLaunches, let lastFetch = lastFetchTime, Date().timeIntervalSince(lastFetch) < 300 {
+            return cached
+        }
+        
+        guard let url = URL(string: "\(baseURL)/launch/upcoming/?limit=20&mode=detailed") else {
             throw URLError(.badURL)
         }
         
@@ -33,6 +40,8 @@ class SpaceDevsAPI {
         }
         
         let launchList = try decoder.decode(LaunchListResponse.self, from: data)
+        self.cachedLaunches = launchList.results
+        self.lastFetchTime = Date()
         return launchList.results
     }
 }

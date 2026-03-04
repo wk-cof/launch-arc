@@ -7,9 +7,9 @@
 - [x] Write and pass pure math unit tests with verified known coordinates
 
 ## Phase 2: The "Hello Celestial Body" Prototype
-- [ ] Initialize AR session with `gravityAndHeading` alignment (Basic AR Passthrough)
-- [ ] Connect math engine to ARKit to place a sphere at the Moon/Sun's current projected location
-- [ ] **Manual Review:** Go outside and physically verify the sphere overlaps the target body
+- [x] Initialize AR session with `gravityAndHeading` alignment (Basic AR Passthrough)
+- [x] Connect math engine to ARKit to place a sphere at the Moon/Sun's current projected location
+- [x] **Manual Review:** Go outside and physically verify the sphere overlaps the target body
 - [ ] Implement the 3D-to-2D screen projection "Look Here" arrow
 
 ## Phase 3: The Rocket MVP

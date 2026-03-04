@@ -19,12 +19,25 @@ struct Launch: Codable, Identifiable {
     let mission: Mission?
     let pad: Pad?
     let image: String?
+    let launchServiceProvider: LaunchServiceProvider? // newly added
     
     enum CodingKeys: String, CodingKey {
         case id, url, name, status, net
         case windowEnd = "window_end"
         case windowStart = "window_start"
         case rocket, mission, pad, image
+        case launchServiceProvider = "launch_service_provider"
+    }
+}
+
+struct LaunchServiceProvider: Codable {
+    let id: Int
+    let name: String
+    let logoUrl: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case id, name
+        case logoUrl = "logo_url"
     }
 }
 
