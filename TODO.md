@@ -2,9 +2,9 @@
 
 ## Phase 1: Data & Math Isolation
 - [x] Scaffold the basic SwiftUI shell (List, AR View empty placeholder, Settings)
-- [ ] Integrate Space Devs API & TLE Ingestion to list upcoming launches
-- [ ] Build pure Swift astronomical engine sandbox (TLE -> Az/El -> xyz)
-- [ ] Write and pass pure math unit tests with verified known coordinates
+- [x] Integrate Space Devs API & TLE Ingestion to list upcoming launches
+- [x] Build pure Swift astronomical engine sandbox (TLE -> Az/El -> xyz)
+- [x] Write and pass pure math unit tests with verified known coordinates
 
 ## Phase 2: The "Hello Celestial Body" Prototype
 - [ ] Initialize AR session with `gravityAndHeading` alignment (Basic AR Passthrough)

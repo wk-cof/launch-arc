@@ -18,3 +18,15 @@ targets:
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         SWIFT_VERSION: 5.0
         ENABLE_USER_SCRIPT_SANDBOXING: NO
+
+  LaunchArcTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "17.4"
+    sources: [LaunchArcTests]
+    dependencies:
+      - target: LaunchArc
+    settings:
+      base:
+        DEVELOPMENT_TEAM: ""
+        GENERATE_INFOPLIST_FILE: YES
