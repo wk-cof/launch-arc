@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07D54441989A64893431F76C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4547493DA0780B5A51415547 /* SettingsView.swift */; };
+		35244FC0826B5B218DD95DC2 /* LaunchListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C141C2BA11FC0A403D8A48 /* LaunchListView.swift */; };
+		474A4D72A5AFAB91D8F52A6B /* ARPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE974B7C8F4D93B8E0B4D24B /* ARPlaceholderView.swift */; };
 		4C367D0ECD0C49A9A3B26B22 /* LaunchArcApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F48B4286E7D9C49A59F665 /* LaunchArcApp.swift */; };
 		7C967982D1DD232EE06018DA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB803C85D8489D5907D80755 /* ContentView.swift */; };
 		CB98A8FB7EF2D7F74B2B72B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE06B50CEF5EDD4BEDD15522 /* Assets.xcassets */; };
@@ -15,12 +18,15 @@
 /* Begin PBXFileReference section */
 		083C02B539ADA5A799F105E1 /* LaunchArc.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = LaunchArc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22CF2DDB70112E0EC29F32CC /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
+		4547493DA0780B5A51415547 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = LaunchArc/Views/SettingsView.swift; sourceTree = SOURCE_ROOT; };
 		61F48B4286E7D9C49A59F665 /* LaunchArcApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchArcApp.swift; sourceTree = "<group>"; };
+		70C141C2BA11FC0A403D8A48 /* LaunchListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LaunchListView.swift; path = LaunchArc/Views/LaunchListView.swift; sourceTree = SOURCE_ROOT; };
 		8D4A6F855A35A33C1F135588 /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
 		BA609F17EA339CDDF6F8012C /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
 		CD6B21ED229D63762B0222D8 /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
 		DB803C85D8489D5907D80755 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		DE06B50CEF5EDD4BEDD15522 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DE974B7C8F4D93B8E0B4D24B /* ARPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ARPlaceholderView.swift; path = LaunchArc/Views/ARPlaceholderView.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -82,6 +88,9 @@
 			isa = PBXGroup;
 			children = (
 				BA609F17EA339CDDF6F8012C /* .gitkeep */,
+				4547493DA0780B5A51415547 /* SettingsView.swift */,
+				DE974B7C8F4D93B8E0B4D24B /* ARPlaceholderView.swift */,
+				70C141C2BA11FC0A403D8A48 /* LaunchListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -158,6 +167,9 @@
 			files = (
 				7C967982D1DD232EE06018DA /* ContentView.swift in Sources */,
 				4C367D0ECD0C49A9A3B26B22 /* LaunchArcApp.swift in Sources */,
+				07D54441989A64893431F76C /* SettingsView.swift in Sources */,
+				474A4D72A5AFAB91D8F52A6B /* ARPlaceholderView.swift in Sources */,
+				35244FC0826B5B218DD95DC2 /* LaunchListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,6 +247,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/LaunchArc/Views";
 				PRODUCT_BUNDLE_IDENTIFIER = com.something.LaunchArc;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -258,6 +271,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/LaunchArc/Views";
 				PRODUCT_BUNDLE_IDENTIFIER = com.something.LaunchArc;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
