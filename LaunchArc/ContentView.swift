@@ -1,15 +1,23 @@
 import SwiftUI
-import ARKit
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "rocket")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("LaunchArc Application")
+        TabView {
+            LaunchListView()
+            .tabItem {
+                Label("Launches", systemImage: "list.dash")
+            }
+
+            ARPlaceholderView()
+            .tabItem {
+                Label("AR View", systemImage: "arkit")
+            }
+
+            SettingsView()
+            .tabItem {
+                Label("Settings", systemImage: "gear")
+            }
         }
-        .padding()
     }
 }
 
