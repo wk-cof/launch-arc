@@ -6,6 +6,8 @@ import CoreLocation
 #if targetEnvironment(simulator)
 struct LaunchARView: View {
     @ObservedObject var locationManager: LocationManager
+    @Binding var azimuthOffset: Double
+    @Binding var elevationOffset: Double
     
     var body: some View {
         VStack {
@@ -25,10 +27,14 @@ struct LaunchARView: View {
                     longitude: location.coordinate.longitude,
                     altitude: location.altitude
                 )
-                let moonAzEl = AstroEngine.calculateMoonPosition(date: Date(), observer: observer)
+                var moonAzEl = AstroEngine.calculateMoonPosition(date: Date(), observer: observer)
+                moonAzEl.azimuth += azimuthOffset
+                moonAzEl.elevation += elevationOffset
                 print("🌑 Simulator Moon Azimuth: \(moonAzEl.azimuth), Elevation: \(moonAzEl.elevation)")
                 
-                let sunAzEl = AstroEngine.calculateSunPosition(date: Date(), observer: observer)
+                var sunAzEl = AstroEngine.calculateSunPosition(date: Date(), observer: observer)
+                sunAzEl.azimuth += azimuthOffset
+                sunAzEl.elevation += elevationOffset
                 print("☀️ Simulator Sun Azimuth: \(sunAzEl.azimuth), Elevation: \(sunAzEl.elevation)")
             }
         }
@@ -37,6 +43,8 @@ struct LaunchARView: View {
 #else
 struct LaunchARView: UIViewRepresentable {
     @ObservedObject var locationManager: LocationManager
+    @Binding var azimuthOffset: Double
+    @Binding var elevationOffset: Double
     
     func makeUIView(context: Context) -> ARView {
         let arView = ARView(frame: .zero)
@@ -75,8 +83,8 @@ struct LaunchARView: UIViewRepresentable {
         )
         
         // Render the Celestial Bodies
-        context.coordinator.renderMoon(observer: observerContext)
-        context.coordinator.renderSun(observer: observerContext)
+        context.coordinator.renderMoon(observer: observerContext, azimuthOffset: azimuthOffset, elevationOffset: elevationOffset)
+        context.coordinator.renderSun(observer: observerContext, azimuthOffset: azimuthOffset, elevationOffset: elevationOffset)
     }
     
     func makeCoordinator() -> Coordinator {
@@ -88,11 +96,16 @@ struct LaunchARView: UIViewRepresentable {
         private var moonAnchor: AnchorEntity?
         private var sunAnchor: AnchorEntity?
         
-        func renderMoon(observer: LocationContext) {
+        func renderMoon(observer: LocationContext, azimuthOffset: Double, elevationOffset: Double) {
             guard let arView = arView else { return }
             
             // 1. Calculate the math
-            let azEl = AstroEngine.calculateMoonPosition(date: Date(), observer: observer)
+            var azEl = AstroEngine.calculateMoonPosition(date: Date(), observer: observer)
+            
+            // Apply Dynamic Calibration Offsets
+            azEl.azimuth += azimuthOffset
+            azEl.elevation += elevationOffset
+            
             print("🌑 Moon Azimuth: \(azEl.azimuth), Elevation: \(azEl.elevation)")
             
             // 2. Transform Math to ARKit Native Coordinate Space (500 meters away)
@@ -100,9 +113,9 @@ struct LaunchARView: UIViewRepresentable {
             
             // 3. Render
             if moonAnchor == nil {
-                // Large enough to see at 500m (radius = 5 meters)
-                let sphereMesh = MeshResource.generateSphere(radius: 5.0)
-                let material = SimpleMaterial(color: .white, isMetallic: false)
+                // Large enough to see at 500m (radius = 30 meters = 6x)
+                let sphereMesh = MeshResource.generateSphere(radius: 30.0)
+                let material = SimpleMaterial(color: .lightGray, isMetallic: false)
                 let moonEntity = ModelEntity(mesh: sphereMesh, materials: [material])
                 
                 let anchor = AnchorEntity(world: transform)
@@ -116,11 +129,16 @@ struct LaunchARView: UIViewRepresentable {
             }
         }
         
-        func renderSun(observer: LocationContext) {
+        func renderSun(observer: LocationContext, azimuthOffset: Double, elevationOffset: Double) {
             guard let arView = arView else { return }
             
             // 1. Calculate the math
-            let azEl = AstroEngine.calculateSunPosition(date: Date(), observer: observer)
+            var azEl = AstroEngine.calculateSunPosition(date: Date(), observer: observer)
+            
+            // Apply Dynamic Calibration Offsets
+            azEl.azimuth += azimuthOffset
+            azEl.elevation += elevationOffset
+            
             print("☀️ Sun Azimuth: \(azEl.azimuth), Elevation: \(azEl.elevation)")
             
             // 2. Transform Math to ARKit Native Coordinate Space (500 meters away)
@@ -128,9 +146,10 @@ struct LaunchARView: UIViewRepresentable {
             
             // 3. Render
             if sunAnchor == nil {
-                // Large enough to see at 500m (radius = 5 meters)
-                let sphereMesh = MeshResource.generateSphere(radius: 5.0)
-                let material = SimpleMaterial(color: .yellow, isMetallic: false)
+                // Large enough to see at 500m (radius = 30 meters = 6x)
+                let sphereMesh = MeshResource.generateSphere(radius: 30.0)
+                // Use UnlitMaterial so the sun always appears bright regardless of AR shadows
+                let material = UnlitMaterial(color: UIColor(red: 1.0, green: 0.95, blue: 0.1, alpha: 1.0))
                 let sunEntity = ModelEntity(mesh: sphereMesh, materials: [material])
                 
                 let anchor = AnchorEntity(world: transform)
