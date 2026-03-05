@@ -4,7 +4,7 @@ public extension AstroEngine {
     
     /// Calculated position of the Sun given a date and location context.
     /// This is an approximation (low precision) to prove ARKit sensor alignment is working during the day.
-    public static func calculateSunPosition(date: Date, observer: LocationContext) -> AzEl {
+    static func calculateSunPosition(date: Date, observer: LocationContext) -> AzEl {
         // Standard Julian Date
         let jd = julianDate(for: date)
         

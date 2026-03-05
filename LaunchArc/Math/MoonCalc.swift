@@ -4,7 +4,7 @@ public extension AstroEngine {
     
     /// Calculated position of the Moon given a date and location context.
     /// This is an approximation (low precision) to prove ARKit sensor alignment is working.
-    public static func calculateMoonPosition(date: Date, observer: LocationContext) -> AzEl {
+    static func calculateMoonPosition(date: Date, observer: LocationContext) -> AzEl {
         // We will use a very simplified algorithm for testing
         // Standard Julian Date
         let jd = julianDate(for: date)

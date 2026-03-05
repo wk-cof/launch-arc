@@ -3,6 +3,38 @@ import RealityKit
 import ARKit
 import CoreLocation
 
+#if targetEnvironment(simulator)
+struct LaunchARView: View {
+    @ObservedObject var locationManager: LocationManager
+    
+    var body: some View {
+        VStack {
+            Image(systemName: "arkit")
+                .font(.system(size: 64))
+                .foregroundColor(.gray)
+                .padding()
+            Text("AR View is not supported on Simulator.\nPlease run on a physical device.")
+                .multilineTextAlignment(.center)
+                .padding()
+        }
+        .onAppear {
+            // Still run rendering math for debug output
+            if let location = locationManager.location {
+                let observer = LocationContext(
+                    latitude: location.coordinate.latitude,
+                    longitude: location.coordinate.longitude,
+                    altitude: location.altitude
+                )
+                let moonAzEl = AstroEngine.calculateMoonPosition(date: Date(), observer: observer)
+                print("🌑 Simulator Moon Azimuth: \(moonAzEl.azimuth), Elevation: \(moonAzEl.elevation)")
+                
+                let sunAzEl = AstroEngine.calculateSunPosition(date: Date(), observer: observer)
+                print("☀️ Simulator Sun Azimuth: \(sunAzEl.azimuth), Elevation: \(sunAzEl.elevation)")
+            }
+        }
+    }
+}
+#else
 struct LaunchARView: UIViewRepresentable {
     @ObservedObject var locationManager: LocationManager
     
@@ -113,3 +145,4 @@ struct LaunchARView: UIViewRepresentable {
         }
     }
 }
+#endif
