@@ -6,8 +6,6 @@ import CoreLocation
 #if targetEnvironment(simulator)
 struct LaunchARView: View {
     @ObservedObject var locationManager: LocationManager
-    @Binding var azimuthOffset: Double
-    @Binding var elevationOffset: Double
     
     var body: some View {
         VStack {
@@ -27,14 +25,10 @@ struct LaunchARView: View {
                     longitude: location.coordinate.longitude,
                     altitude: location.altitude
                 )
-                var moonAzEl = AstroEngine.calculateMoonPosition(date: Date(), observer: observer)
-                moonAzEl.azimuth += azimuthOffset
-                moonAzEl.elevation += elevationOffset
+                let moonAzEl = AstroEngine.calculateMoonPosition(date: Date(), observer: observer)
                 print("🌑 Simulator Moon Azimuth: \(moonAzEl.azimuth), Elevation: \(moonAzEl.elevation)")
                 
-                var sunAzEl = AstroEngine.calculateSunPosition(date: Date(), observer: observer)
-                sunAzEl.azimuth += azimuthOffset
-                sunAzEl.elevation += elevationOffset
+                let sunAzEl = AstroEngine.calculateSunPosition(date: Date(), observer: observer)
                 print("☀️ Simulator Sun Azimuth: \(sunAzEl.azimuth), Elevation: \(sunAzEl.elevation)")
             }
         }
@@ -43,8 +37,6 @@ struct LaunchARView: View {
 #else
 struct LaunchARView: UIViewRepresentable {
     @ObservedObject var locationManager: LocationManager
-    @Binding var azimuthOffset: Double
-    @Binding var elevationOffset: Double
     
     func makeUIView(context: Context) -> ARView {
         let arView = ARView(frame: .zero)
@@ -83,8 +75,8 @@ struct LaunchARView: UIViewRepresentable {
         )
         
         // Render the Celestial Bodies
-        context.coordinator.renderMoon(observer: observerContext, azimuthOffset: azimuthOffset, elevationOffset: elevationOffset)
-        context.coordinator.renderSun(observer: observerContext, azimuthOffset: azimuthOffset, elevationOffset: elevationOffset)
+        context.coordinator.renderMoon(observer: observerContext)
+        context.coordinator.renderSun(observer: observerContext)
     }
     
     func makeCoordinator() -> Coordinator {
@@ -96,15 +88,11 @@ struct LaunchARView: UIViewRepresentable {
         private var moonAnchor: AnchorEntity?
         private var sunAnchor: AnchorEntity?
         
-        func renderMoon(observer: LocationContext, azimuthOffset: Double, elevationOffset: Double) {
+        func renderMoon(observer: LocationContext) {
             guard let arView = arView else { return }
             
             // 1. Calculate the math
-            var azEl = AstroEngine.calculateMoonPosition(date: Date(), observer: observer)
-            
-            // Apply Dynamic Calibration Offsets
-            azEl.azimuth += azimuthOffset
-            azEl.elevation += elevationOffset
+            let azEl = AstroEngine.calculateMoonPosition(date: Date(), observer: observer)
             
             print("🌑 Moon Azimuth: \(azEl.azimuth), Elevation: \(azEl.elevation)")
             
@@ -129,15 +117,11 @@ struct LaunchARView: UIViewRepresentable {
             }
         }
         
-        func renderSun(observer: LocationContext, azimuthOffset: Double, elevationOffset: Double) {
+        func renderSun(observer: LocationContext) {
             guard let arView = arView else { return }
             
             // 1. Calculate the math
-            var azEl = AstroEngine.calculateSunPosition(date: Date(), observer: observer)
-            
-            // Apply Dynamic Calibration Offsets
-            azEl.azimuth += azimuthOffset
-            azEl.elevation += elevationOffset
+            let azEl = AstroEngine.calculateSunPosition(date: Date(), observer: observer)
             
             print("☀️ Sun Azimuth: \(azEl.azimuth), Elevation: \(azEl.elevation)")
             

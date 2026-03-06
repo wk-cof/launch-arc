@@ -15,7 +15,7 @@ public extension AstroEngine {
         // Orbital elements of the Moon
         let N = 125.1228 - 0.0529538083 * d // Node
         let i = 5.1454 // Inclination
-        let w = 318.0634 + 0.1643573223 * d // Argument of perigee
+        let w = 318.0634 + 0.1643573223 * d // Longitude of perigee
         let a = 60.2666 // Semi-major axis in Earth radii
         let e = 0.054900 // Eccentricity
         let M = 115.3654 + 13.0649929509 * d // Mean anomaly
@@ -29,7 +29,7 @@ public extension AstroEngine {
         
         let N_norm = norm(N) * deg2rad
         let i_rad = i * deg2rad
-        let w_norm = norm(w) * deg2rad
+        let w_arg_norm = norm(w - N) * deg2rad
         let M_norm = norm(M) * deg2rad
         
         // Eccentric anomaly
@@ -50,7 +50,7 @@ public extension AstroEngine {
         let r = sqrt(xv * xv + yv * yv)
         
         // Longitude and latitude
-        let lDiff = v + w_norm
+        let lDiff = v + w_arg_norm
         let xh = r * (cos(N_norm) * cos(lDiff) - sin(N_norm) * sin(lDiff) * cos(i_rad))
         let yh = r * (sin(N_norm) * cos(lDiff) + cos(N_norm) * sin(lDiff) * cos(i_rad))
         let zh = r * (sin(lDiff) * sin(i_rad))
